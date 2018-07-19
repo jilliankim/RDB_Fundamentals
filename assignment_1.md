@@ -34,8 +34,15 @@
      FROM payments;
      ```
      >This command will select all data, and amount entries from the payments table and return a table consisting of only the date and amount columns.
-
-
+     
+     - **Result:**
+     
+       date | amount
+       -----|-------
+       2016-05-01T00:00:00.000Z | 1500.0000
+       2016-05-10T00:00:00.000Z | 37.0000
+       2016-05-15T00:00:00.000Z | 124.9300
+       2016-05-23T00:00:00.000Z | 54.7200
 
    - ```SQL
      SELECT amount
@@ -43,6 +50,12 @@
      WHERE amount > 500;
      ```
      >This command will `select` all ammounts in the `payments` table that have an `amount` over 500
+     
+     - **Result:**
+     
+       amount |
+       -----|
+       1500.0000 |
 
    - ```SQL
      SELECT *
@@ -50,6 +63,12 @@
      WHERE payee = 'Mega Foods';
      ```
      >This command will `select` **all** columns from the `payments` table where the `payee` is 'Mega Foods'
+     
+     - **Result:**
+     
+       date | payee | amount | memo
+       -----|-------|--------|-----
+       2016-05-15T00:00:00.000Z | Mega Foods | 124.9300 | Groceries
 
 8. Given this ['users'](https://www.db-fiddle.com/f/iQAEYktwysXqcLQHv2dwbc/0) table, write SQL queries using the following criteria and include the output:
    * The email and sign-up date for the user named DeAndre Data.
