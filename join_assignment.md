@@ -297,6 +297,75 @@
        Terry Boot | 1
        Cedric Diggory | 2
    - **Make a list of all book titles and denote whether or not a copy of that book is checked out.**
+     - ```sql
+       SELECT b.title, COUNT (t.id)
+       FROM transactions AS t
+       RIGHT JOIN books b
+	           ON b.isbn = t.isbn
+             AND t.checked_in_date IS NULL
+       GROUP BY b.isbn;
+       ```
+       **RESULT**
+       
+       title | count
+       |---|:-:|
+       Fantastic Beasts and Where to Find Them | 1
+       Hogwarts: A History | 0
+       Advanced Potion-Making | 1
+
    - **In an effort to learn which books take longer to read, the librarians would like you to create a list of average checked out time by book name in the past month.**
+     - ```sql
+       SELECT b.title, CAST(
+                       AVG((t.checked_in_date - t.checked_out_date))
+                       AS DEC(5,0))
+         FROM books AS b
+              JOIN transactions AS t
+              ON b.isbn = t.isbn
+              WHERE (t.checked_out_date >= CURRENT_DATE - INTERVAL '1 MONTH') AND t.checked_in_date IS NOT NULL
+        GROUP BY b.title 
+        ORDER BY b.title ASC;
+        ```
+        **RESULT**
+        
+       title | avg
+       |---|:-:|
+       Fantastic Beasts and Where to Find Them | 3
    - **In order to learn which items should be retired, make a list of all books that have not been checked out in the past 5 years.**
+     - ```sql
+       SELECT b.title, t.checked_out_date
+         FROM books b
+              JOIN transactions t
+              ON b.isbn = t.isbn
+        WHERE t.checked_out_date < CURRENT_DATE - INTERVAL '5 YEARS'
+              AND t.isbn NOT IN
+              (SELECT isbn FROM transactions
+               WHERE checked_in_date IS NULL)
+        GROUP BY b.title, t.checked_out_date;
+        ```
+        ***RESULTS***
+        
+        title | checked_out_date
+        |---|---|
+        Hogwarts: A History | 2012-07-29T00:00:00.000Z
    - **List all of the library patrons. If they have one or more books checked out, correspond the books to the patrons.**
+     - ```sql
+       SELECT p.name, b.title
+         FROM patrons AS p
+              JOIN transactions t
+                ON p.id = t.patron_id
+       
+              LEFT JOIN books AS b
+                ON t.isbn = b.isbn
+        ORDER BY p.id;
+       ```
+       **RESULTS**
+       
+       name | title
+       |---|---|
+       Hermione Granger | Fantastic Beasts and Where to Find Them
+       Hermione Granger | Hogwarts: A History
+       Terry Boot | Advanced Potion-Making
+       Terry Boot | Fantastic Beasts and Where to Find Them
+       Padma Patil | Fantastic Beasts and Where to Find Them
+       Cho Chang | Advanced Potion-Making
+       Cedric Diggory | Fantastic Beasts and Where to Find Them
