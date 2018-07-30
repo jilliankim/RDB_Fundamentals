@@ -266,11 +266,36 @@
      Argus|Victoire|2018-07-11T00:00:00.000Z
      
    - **Adopters who have not yet chosen a dog to adopt and generate all possible combinations of adopters and available dogs.**
+     - ```sql
+       SELECT * FROM adopters 
+       CROSS JOIN dogs
+       WHERE adopters.id 
+       NOT IN (SELECT adopter_id FROM dog_adoptions)
+       AND dogs.id NOT IN (SELECT dog_id FROM dog_adoptions)
+       ```
+
    - **Lists of all cats and all dogs who have not been adopted.**
    - **Volunteers who are available to foster. If they currently are fostering a dog, include the dog. Also include all dogs who are not currently in foster homes.**
    - **The name of the person who adopted Rosco.**
 9. **Using [this Library schema and data](https://www.db-fiddle.com/f/j4EGoWzHWDBVtiYzB9ygC4/0), write queries applying the following scenarios:**
    - **To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on &quot;Advanced Potion-Making&quot;.**
+     - ```sql
+       SELECT p.name, h.rank
+         FROM patrons AS p
+              JOIN holds AS h
+                ON p.id = h.patron_id
+             
+              JOIN books AS b
+                ON b.isbn = h.isbn
+        WHERE b.isbn = '9136884926'
+        ORDER BY h.rank;
+       ```
+       **RESULT**
+       
+       name | rank
+       |---|:-:|
+       Terry Boot | 1
+       Cedric Diggory | 2
    - **Make a list of all book titles and denote whether or not a copy of that book is checked out.**
    - **In an effort to learn which books take longer to read, the librarians would like you to create a list of average checked out time by book name in the past month.**
    - **In order to learn which items should be retired, make a list of all books that have not been checked out in the past 5 years.**
