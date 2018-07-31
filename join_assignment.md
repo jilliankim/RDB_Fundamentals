@@ -26,6 +26,7 @@
          FROM participants AS p, items AS i
          ```
          **OR**
+	 
          ```sql
          -- Explicit CROSS JOIN
          SELECT p.name, p.active, i.description, i.found
