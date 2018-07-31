@@ -224,9 +224,6 @@
               ON scheduled_shifts.shift_id = shifts.id
        ```
        
-       ** **NOTE** **
-       > This was another assignment that was introducing concepts not even hinted at in the context of the checkpoint material.  I still don't know how to explain the **why** for this question.  There really should be a _Suggested Reading_ section for this checkpoint to prepare the user to answer these questions, especially if they're not going to be covered in the material.  Five hours is entirely too long to spend on this.  Unfortunately, there are no Technical Coaches at 11:30PM Central Time.
-       
 8. **Using [this Adoption schema and data](https://www.db-fiddle.com/f/tpodLv3A43VL4gHqohqx2o/0), please write queries to retrieve the following information and include the results:**
    - **All volunteers. If the volunteer is fostering a dog, include each dog as well.**
      - Again, I don't know what I'm doing, but this resulted in what I think is the right answer.
@@ -275,8 +272,72 @@
        ```
 
    - **Lists of all cats and all dogs who have not been adopted.**
+     - ```sql
+       SELECT c.id, c.name, c.gender, c.age, 'feline' AS species
+         FROM cats AS c
+              LEFT JOIN cat_adoptions AS ca
+                   ON c.id = ca.cat_id
+        WHERE ca.adopter_id IS NULL
+        UNION
+       SELECT d.id, d.name, d.gender, d.age, 'canine' AS species
+         FROM dogs AS d
+              LEFT JOIN dog_adoptions AS da
+                   ON d.id = da.dog_id
+        WHERE da.adopter_id IS NULL
+       ```
+       **RESULT**
+	
+       id | name | gender | age | species
+       :-:|---|:-:|:-:|---|
+       2 | Seashell | F | 7 | feline
+       5 | Nala | F | 1 | feline
+       10002 | Munchkin | F | 0 | canine
+       10004 | Marley | M | 0 | canine
+       10001 | Boujee | F | 3 | canine
+       10003 | Lassie | F | 7 | canine
+       10006 | Marmaduke | M | 7 | canine
+       
    - **Volunteers who are available to foster. If they currently are fostering a dog, include the dog. Also include all dogs who are not currently in foster homes.**
+     - ```sql
+       SELECT *
+         FROM volunteers AS v
+              FULL JOIN dogs AS d
+                ON v.foster_dog_id = d.id
+        WHERE v.available_to_foster = true
+              OR d.id IS NOT NULL
+        ORDER BY v.first_name
+       ```
+       **RESULT**
+	
+
+       id | first_name | last_name | address | phone_number | available_to_foster | foster_dog_id | id | name | gender | age | weight | breed | intake_date | in_foster
+       |:-:|---|---|---|---|:-:|:-:|:-:|---|---|:-:|:-:|---|---|---|
+       5 | Marjorie | Dursley | 1990 Next Door to Fubster | 463-528-2253 | true | 10006 | 10006 | Marmaduke | M | 7 | 150 | great dane | 2016-03-22T00:00:00.000Z | null
+       3 | Remus | Lupin | 12 Grimmauld Place | 627-283-3771 | true | null | null | null | null | null | null | null | null | null
+       2 | Rubeus | Hagrid | 1 Edge of Forbidden Forest | 256-667-2378 | true | 10002 | 10002 | Munchkin | F | 0 | 8 | dachsund chihuahua | 2017-01-13T00:00:00.000Z | null
+       4 | Sirius | Black | 12 Grimmauld Place | 878-666-4663 | true | null | null | null | null | null | null | null | null | null
+       null | null | null | null | null | null | null | 10004 | Marley | M | 0 | 10 | labrador | 2017-05-04T00:00:00.000Z | null
+       null | null | null | null | null | null | null | 10003 | Lassie | F | 7 | 17 | collie shepherd | 2016-07-05T00:00:00.000Z | null
+       null | null | null | null | null | null | null | 10007 | Rosco | M | 5 | 180 | rottweiler | 2017-04-01T00:00:00.000Z | null
+       null | null | null | null | null | null | null | 10001 | Boujee | F | 3 | 36 | labrador poodle | 
+       
    - **The name of the person who adopted Rosco.**
+     - ```sql
+       SELECT a.first_name, a.last_name, da.adopter_id, da.dog_id
+         FROM adopters AS a
+         JOIN dog_adoptions AS da
+              ON da.dog_id =
+                 (SELECT id
+                  FROM dogs
+                  WHERE name = 'Rosco')
+              AND da.adopter_id = a.id;
+       ```
+       **RESULT**
+       
+       first_name | last_name | adopter_id | dog_id
+       |---|---|:-:|---|
+       Argus | Filch | 3 | 10007
+
 9. **Using [this Library schema and data](https://www.db-fiddle.com/f/j4EGoWzHWDBVtiYzB9ygC4/0), write queries applying the following scenarios:**
    - **To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on &quot;Advanced Potion-Making&quot;.**
      - ```sql
