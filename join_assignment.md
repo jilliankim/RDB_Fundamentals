@@ -227,7 +227,6 @@
        
 8. **Using [this Adoption schema and data](https://www.db-fiddle.com/f/tpodLv3A43VL4gHqohqx2o/0), please write queries to retrieve the following information and include the results:**
    - **All volunteers. If the volunteer is fostering a dog, include each dog as well.**
-     - Again, I don't know what I'm doing, but this resulted in what I think is the right answer.
      
        ```sql
        SELECT v.first_name AS vfn, v.last_name AS vln, d.name
