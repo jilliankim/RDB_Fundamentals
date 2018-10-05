@@ -1,5 +1,5 @@
 1. **Create a database for the model we built in the example. Create a SQL file that creates the tables and inserts sample data. Submit queries to find the following information and include the results:**
-   - >[SQL Fiddle](http://sqlfiddle.com/#!17/7252e) - Working fiddle for the following queries
+   - >[SQL Fiddle](http://sqlfiddle.com/#!17/7252e/8) - Working fiddle for the following queries
    - **A guest who exists in the database and has not booked a room.**
      - **QUERY:**
        ```sql
