@@ -1,5 +1,5 @@
 1. **Create a database for the model we built in the example. Create a SQL file that creates the tables and inserts sample data. Submit queries to find the following information and include the results:**
-   - >[SQL Fiddle](https://www.db-fiddle.com/f/8A7eofB5NTMxyt2jtnPkNW/8) - Working fiddle for the following queries
+   - >[SQL Fiddle](http://sqlfiddle.com/#!17/7252e) - Working fiddle for the following queries
    - **A guest who exists in the database and has not booked a room.**
      - **QUERY:**
        ```sql
@@ -107,7 +107,7 @@
        ![LucidChart UML](https://www.lucidchart.com/publicSegments/view/7b5cdef3-46d0-404c-becf-4cd7484af9f1/image.png)
 
 3. **Build a database for the students/classes data model. Create a SQL file that creates the tables and inserts sample data.**
-   - >[DB Fiddle](https://www.db-fiddle.com/f/8A7eofB5NTMxyt2jtnPkNW/0) - Working fiddle of the following queries
+   - >[DB Fiddle](https://www.db-fiddle.com/f/8A7eofB5NTMxyt2jtnPkNW/8) - Working fiddle of the following queries
    - **Submit queries for the following data and include the results:**
      - **All students who have taken a particular class.**
        - **QUERY:**
