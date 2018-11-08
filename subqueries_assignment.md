@@ -13,13 +13,13 @@
 3. **When would you employ a subquery?**
    - Aggregate functions are a good example of when to use a Subquery.  `SUM`, `AVG`, and `COUNT` just to name a few.  Subquries are also used when we need to run a query on the result of another query, such as when using `EXISTS` and `IN`.
 
-   ```sql
-   SELECT s.first_name, s.last_name,
-     FROM students AS s
-    WHERE s.id NOT IN (SELECT e.student_id
-                         FROM enrollments AS e
-                        WHERE e.course_id = 2132);
-   ```
+     ```sql
+     SELECT s.first_name, s.last_name,
+       FROM students AS s
+      WHERE s.id NOT IN (SELECT e.student_id
+                           FROM enrollments AS e
+                          WHERE e.course_id = 2132);
+     ```
 
    The above query is an example of when to use a Subquery.  Here, we are looking for the students where are not currently encrolled in a given course--in this case, a course with a `course_id` of `2132`.
 
@@ -315,7 +315,8 @@
        - **RESULT**
 
            |money|
-           |:-:|
-	   |$382,386.82|
+           |---|
+           |$382,386.82|
+	   
 10. **Compare the subqueries you've written above. Compare them to the joins you wrote in Checkpoint 6. Which ones are more readable? Which were more logical to write?**
       - I really struggled converting these joins to Subqueries and had to work with my mentor many times to wrap my head around converting these.  The ones I found _"easier"_ to read would be questions `7.1`, `7.3`, and `8.2` as they were much simpler than the join.  My curiosity, though, is which is more expensive, a `JOIN` or a full on additional `QUERY`?  In some of these, there are multiple _subqueries_ and in a minor few there are `JOIN` statements that make use of a _subquery_.  As the DB scales, which is more preferred between `JOIN` and _Subquery_?  As I have pointed out in a few other questions, I would love any recommended readings, or resources you would recommend on this topic!  Have a great day and thanks for grading!
